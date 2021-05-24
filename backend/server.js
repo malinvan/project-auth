@@ -37,7 +37,13 @@ const User = mongoose.model('User', {
 
 const Movie = mongoose.model('Movie', {
   title: String,
+  // director: String,
+  // cast: String,
+  // country: String,
+  // listed_in: String,
   release_year: Number,
+  // description: String,
+  // duration: String,
 });
 
 if (process.env.RESET_DB) {
@@ -115,8 +121,49 @@ app.post('/signin', async (req, res) => {
   }
 });
 
-app.get('/netflix', authenicateUser);
+// app.get('/netflix', authenicateUser);
 app.get('/netflix', async (req, res) => {
+  // let data;
+  // const { country } = req.query;
+  // const { genre } = req.query;
+  // const { releaseYear } = req.query;
+  // const { title } = req.query;
+  // const { director } = req.query;
+  // const { cast } = req.query;
+
+  // try {
+  //   if (country) {
+  //     data = await NetflixData.find({
+  //       country: { $regex: country, $options: 'i' },
+  //     });
+  //   } else if (genre) {
+  //     data = await NetflixData.find({
+  //       listed_in: { $regex: genre, $options: 'i' },
+  //     });
+  //   } else if (releaseYear) {
+  //     data = await NetflixData.find({ release_year: releaseYear });
+  //   } else if (title) {
+  //     data = await NetflixData.find({
+  //       title: { $regex: title, $options: 'i' },
+  //     });
+  //   } else if (director) {
+  //     data = await NetflixData.find({
+  //       director: { $regex: director, $options: 'i' },
+  //     });
+  //   } else if (cast) {
+  //     data = await NetflixData.find({
+  //       cast: { $regex: cast, $options: 'i' },
+  //     });
+  //   } else {
+  //     data = await NetflixData.find();
+  //   }
+  //   res.json(data);
+  // } catch (error) {
+  //   res
+  //     .status(400)
+  //     .json({ error: 'Oops, no luck with that search', details: error });
+  // }
+
   const movies = await Movie.find();
   res.json(movies);
 });

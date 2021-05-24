@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { movie, fetchMovies } from 'reducers/movie';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { movie } from 'reducers/movie';
+import styled from 'styled-components/macro';
+
+import { Movies } from 'components/Movies';
+import { Form } from 'components/Form';
+import { Header } from 'components/Header';
 
 const reducer = combineReducers({
   movie: movie.reducer,
@@ -10,29 +14,20 @@ const reducer = combineReducers({
 
 const store = configureStore({ reducer });
 
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const App = () => {
-  const moviesList = useSelector((store) => store.movie.movieList);
-  const dispatch = useDispatch();
-
-  const onFetchMovies = () => {
-    dispatch(fetchMovies());
-  };
-
-  useEffect(() => {
-    onFetchMovies();
-  });
-
   return (
     <Provider store={store}>
-      <div>
-        <h1>HELLO MOVIES</h1>
-        {moviesList.map((movie) => (
-          <div key={movie._id}>
-            <p>{movie.title}</p>
-            <p>{movie.release_year}</p>
-          </div>
-        ))}
-      </div>
+      <Container>
+        <Header />
+        <Form />
+        <Movies />
+      </Container>
     </Provider>
   );
 };
