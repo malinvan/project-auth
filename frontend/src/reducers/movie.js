@@ -3,12 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const movie = createSlice({
   name: 'movie',
   initialState: {
-    movieList: [
-      {
-        title: '',
-        release_year: '',
-      },
-    ],
+    movieList: [],
   },
   reducers: {
     setMovieList: (store, action) => {
@@ -22,10 +17,7 @@ export const fetchMovies = () => {
     fetch('http://localhost:8080/netflix')
       .then((res) => res.json())
       .then((json) => {
-        json.map((movie) => {
-          dispatch(movie.action.setMovieList(movie.title));
-          dispatch(movie.action.setMovieList(movie.release_year));
-        });
+        dispatch(movie.actions.setMovieList(json));
       });
   };
 };

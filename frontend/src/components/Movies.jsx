@@ -13,7 +13,7 @@ export const Movies = () => {
 
   useEffect(() => {
     onFetchMovies();
-  });
+  }, []);
 
   return (
       <div>

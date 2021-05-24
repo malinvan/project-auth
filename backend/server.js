@@ -37,13 +37,13 @@ const User = mongoose.model('User', {
 
 const Movie = mongoose.model('Movie', {
   title: String,
-  // director: String,
-  // cast: String,
-  // country: String,
-  // listed_in: String,
+  director: String,
+  cast: String,
+  country: String,
+  listed_in: String,
   release_year: Number,
-  // description: String,
-  // duration: String,
+  description: String,
+  duration: String
 });
 
 if (process.env.RESET_DB) {
