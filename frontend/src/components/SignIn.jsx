@@ -31,14 +31,12 @@ export const SignIn = () => {
       <Input
         type="text"
         id="email"
-        placeholder="email"
         onChange={e => setValue(e.target.value)}
       ></Input>
       <label>password</label>
       <Input
         type="text"
         id="password"
-        placeholder="password"
         onChange={e => setValue(e.target.value)}
       ></Input>
       <button

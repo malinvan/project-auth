@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { movie } from 'reducers/movie';
 import styled from 'styled-components/macro';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { Movies } from 'components/Movies';
 import { SignUp } from 'components/SignUp';
@@ -23,11 +24,19 @@ const Container = styled.section`
 export const App = () => {
   return (
     <Provider store={store}>
-      <Container>
-        <Header />
-        <SignUp />
-        <Movies />
-      </Container>
+      <BrowserRouter>
+        <Switch>
+          <Container>
+            <Route path="/" exact>
+              <Header />
+              <SignUp />
+            {/* </Route>
+            <Route path="/movies" exact> */}
+              <Movies />
+            </Route>
+          </Container>
+        </Switch>
+      </BrowserRouter>
     </Provider>
   );
 };
