@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components/macro';
 
 const FormContainer = styled.form`
@@ -15,28 +15,35 @@ const Input = styled.input`
   background-color: black;
 `;
 
-export const Form = () => {
+export const SignIn = () => {
+  const [value, setValue] = useState('')
+  const dispatch = useDispatch();
+
+  const submit = (e) => {
+    e.preventDefault();
+    dispatch(fetchBooks(value));
+  }
+
   return (
     <FormContainer>
-      <h2>Sign Up!</h2>
+      <h2>Sign In!</h2>
       <label>email</label>
       <Input
         type="text"
         id="email"
         placeholder="email"
-      ></Input>
-      <label>name</label>
-      <Input
-        type="text"
-        id="name"
-        placeholder="name"
+        onChange={e => setValue(e.target.value)}
       ></Input>
       <label>password</label>
       <Input
         type="text"
         id="password"
         placeholder="password"
+        onChange={e => setValue(e.target.value)}
       ></Input>
+      <button
+        onClick={submit}
+      >Sign In</button>
     </FormContainer>
   )
 }

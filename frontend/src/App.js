@@ -5,7 +5,7 @@ import { movie } from 'reducers/movie';
 import styled from 'styled-components/macro';
 
 import { Movies } from 'components/Movies';
-import { Form } from 'components/Form';
+import { SignUp } from 'components/SignUp';
 import { Header } from 'components/Header';
 
 const reducer = combineReducers({
@@ -25,7 +25,7 @@ export const App = () => {
     <Provider store={store}>
       <Container>
         <Header />
-        <Form />
+        <SignUp />
         <Movies />
       </Container>
     </Provider>
