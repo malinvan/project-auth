@@ -7,7 +7,9 @@ import React, {
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components/macro";
 // import { fetchMovies } from "reducers/movie";
-import { API_URL } from "../reusable/urls";
+import { signIn } from "reducers/user";
+import { signUp } from "reducers/user";
+
 
 const FormContainer = styled.form`
   display: flex;
@@ -48,13 +50,13 @@ const ButtonContainer = styled.div`
 `;
 
 export const SignIn = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState(null);
 
   // const accessTooken = useSelector(store => store.user.accessToken)
-  // const dispatch = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch();
+  // const history = useHistory();
 
   // useEffect(() => {
   //   if (accessToken) {
@@ -64,39 +66,22 @@ export const SignIn = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
-      body: JSON.stringify({ username, password }),
+    if (mode === 'signup') {
+      dispatch(signUp(email, password))
     }
-
-    fetch(API_URL(mode), options)
-      .then(res => console.log(res))
-      // .then(data => {
-      //   if (data.success) {
-      //     batch(() => {
-      //       dispatch(user.actions.setUsername(data.username));
-      //       dispatch(user.actions.setAccesstoken(data.accesstoken));
-      //       dispatch(user.actions.setErrors(null));
-      //     });
-      //   } else {
-      //     dispatch(user.actions.setErrors(data));
-      //   }
-      // })
-      .catch();
-      }
-    // dispatch(fetchMovies(value));
-  
+    if (mode === 'signin') {
+      dispatch(signIn(email, password))
+    }
+  }
 
   return (
     <FormContainer onSubmit={onFormSubmit}>
       <h2>Sign in or sign up!</h2>
-      <label>username</label>
+      <label>Email</label>
       <Input
         type="text"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
+        value={email}
+        onChange={e => setEmail(e.target.value)}
       ></Input>
       <label>password</label>
       <Input

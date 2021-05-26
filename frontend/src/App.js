@@ -10,7 +10,7 @@ import { user } from "reducers/user";
 import { Movies } from "components/Movies";
 // import { SignUp } from 'components/SignUp';
 import { SignIn } from "components/SignIn";
-import { Header } from "components/Header";
+// import { Header } from "components/Header";
 import { Main } from "components/Main";
 
 const reducer = combineReducers({
@@ -20,23 +20,22 @@ const reducer = combineReducers({
 
 const store = configureStore({ reducer });
 
-// const Container = styled.section`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Switch>
-          {/* <Container> */}
-          {/* <Header /> */}
-          <Route path="/" exact component={Main} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/netflix" component={Movies} />
-          {/* </Container> */}
+          <Container>
+            <Route path="/" exact component={Main} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/netflix" component={Movies} />
+          </Container>
         </Switch>
       </BrowserRouter>
     </Provider>
