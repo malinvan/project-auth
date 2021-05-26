@@ -22,25 +22,25 @@ export const user = () => ({
   },
 });
 
-export const fetchUser = () => {
-  return (dispatch) => {
-    fetch(API_URL(mode, options), {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
-      body: JSON.stringify({ username, password }),
-    })
-      .then((res) => res.json)
-      .then((data) => {
-        if (data.success) {
-          batch(() => {
-            dispatch(user.actions.setUsername(data.username));
-            dispatch(user.actions.setAccesstoken(data.accesstoken));
-            dispatch(user.actions.setErrors(null));
-          });
-        } else {
-          dispatch(user.actions.setErrors(data));
-        }
-      })
-      .catch();
-  };
-};
+// export const fetchUser = () => {
+//   return (dispatch) => {
+//     fetch(API_URL(mode, options), {
+//       method: "POST",
+//       headers: { "Content-Type": "application/JSON" },
+//       body: JSON.stringify({ username, password }),
+//     })
+//       .then((res) => res.json)
+//       .then((data) => {
+//         if (data.success) {
+//           batch(() => {
+//             dispatch(user.actions.setUsername(data.username));
+//             dispatch(user.actions.setAccesstoken(data.accesstoken));
+//             dispatch(user.actions.setErrors(null));
+//           });
+//         } else {
+//           dispatch(user.actions.setErrors(data));
+//         }
+//       })
+//       .catch();
+//   };
+// };

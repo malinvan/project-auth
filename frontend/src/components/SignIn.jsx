@@ -1,12 +1,12 @@
 import React, { 
   useState, 
   useDispatch,
-  useEffect
+  // useEffect
 } from "react";
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components/macro";
-import { fetchMovies } from "reducers/movie";
+// import { fetchMovies } from "reducers/movie";
 import { API_URL } from "../reusable/urls";
 
 const FormContainer = styled.form`
@@ -18,9 +18,33 @@ const FormContainer = styled.form`
 
 const Input = styled.input`
   border: none;
+  color: white;
   border-bottom: 1px solid white;
   margin-bottom: 10px;
   background-color: black;
+  ::placeholder {
+    color: #e7e9eb;
+  }
+  :focus {
+    outline: none;
+    background-color: #2c2d26;
+    color: white;
+    ::placeholder {
+      color: white;
+    }
+  }
+`;
+
+const Button = styled.button`
+  background-color: white;
+  width: 50%;
+  border-radius: 50px;
+  font-weight: bold;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 export const SignIn = () => {
@@ -28,47 +52,74 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState(null);
 
-  const accessTooken = useSelector(store => store.user.accessToken)
-  const dispatch = useDispatch();
+  // const accessTooken = useSelector(store => store.user.accessToken)
+  // const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    if (accessToken) {
-      history.push('/movies');
-    }
-  }, [accessToken])
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     history.push('/movies');
+  //   }
+  // }, [accessToken])
 
-  const submit = (e) => {
+  const onFormSubmit = (e) => {
     e.preventDefault();
-    fetch(API_URL(mode))
+
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/JSON" },
+      body: JSON.stringify({ username, password }),
+    }
+
+    fetch(API_URL(mode), options)
+      .then(res => console.log(res))
+      // .then(data => {
+      //   if (data.success) {
+      //     batch(() => {
+      //       dispatch(user.actions.setUsername(data.username));
+      //       dispatch(user.actions.setAccesstoken(data.accesstoken));
+      //       dispatch(user.actions.setErrors(null));
+      //     });
+      //   } else {
+      //     dispatch(user.actions.setErrors(data));
+      //   }
+      // })
+      .catch();
+      }
     // dispatch(fetchMovies(value));
-  }
+  
 
   return (
-    <FormContainer>
-      <h2>Sign In!</h2>
-      <label>email</label>
+    <FormContainer onSubmit={onFormSubmit}>
+      <h2>Sign in or sign up!</h2>
+      <label>username</label>
       <Input
         type="text"
-        id="email"
-        value="email"
+        value={username}
         onChange={e => setUsername(e.target.value)}
       ></Input>
       <label>password</label>
       <Input
         type="password"
-        id="password"
-        value="password"
+        value={password}
         onChange={e => setPassword(e.target.value)}
       ></Input>
-      <button
-        type="submit"
-        onClick={() => setMode('singin')}
-      >Sign In</button>
-      <button
-        type="submit"
-        onClick={() => setMode('singup')}
-      >Sign Up</button>
+      <ButtonContainer>
+        <Button
+          type="submit"
+          onClick={() => {
+            setMode('signin')
+            console.log("HELLO FROM SIGN IN")
+          }}
+        >Sign In</Button>
+        <Button
+          type="submit"
+          onClick={() => {
+            setMode('signup')
+            console.log("HELLO")
+          }}
+        >Sign Up</Button>
+      </ButtonContainer>
     </FormContainer>
   )
 }
