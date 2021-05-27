@@ -1,15 +1,20 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { movie } from 'reducers/movie';
-import styled from 'styled-components/macro';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React from "react";
+import { Provider } from "react-redux";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import styled from "styled-components/macro";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Movies } from 'components/Movies';
-import { SignUp } from 'components/SignUp';
-import { Header } from 'components/Header';
+import { movie } from "reducers/movie";
+import { user } from "reducers/user";
+
+import { Movies } from "components/Movies";
+// import { SignUp } from 'components/SignUp';
+import { SignIn } from "components/SignIn";
+// import { Header } from "components/Header";
+import { Main } from "components/Main";
 
 const reducer = combineReducers({
+  user: user.reducer,
   movie: movie.reducer,
 });
 
@@ -27,13 +32,9 @@ export const App = () => {
       <BrowserRouter>
         <Switch>
           <Container>
-            <Route path="/" exact>
-              <Header />
-              <SignUp />
-            {/* </Route>
-            <Route path="/movies" exact> */}
-              <Movies />
-            </Route>
+            <Route path="/" exact component={Main} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/netflix" component={Movies} />
           </Container>
         </Switch>
       </BrowserRouter>

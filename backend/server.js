@@ -17,10 +17,6 @@ mongoose.connect(mongoUrl, {
 mongoose.Promise = Promise;
 
 const User = mongoose.model('User', {
-  name: {
-    type: String,
-    unique: true,
-  },
   email: {
     type: String,
     unique: true,
@@ -87,10 +83,17 @@ app.get('/', (req, res) => {
 app.post('/signup', async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync();
-    console.log(salt);
-    const { name, email, password } = req.body;
-    const user = new User({
-      name,
+    const { email, password } = req.body;
+    
+    user = await User.find({
+      email
+    });
+    if (user) {
+      res.status(403).json({ errorCode: 'email-exists' })
+      return
+    }
+    
+    user = new User({
       email,
       password: bcrypt.hashSync(password, salt),
     });
@@ -107,15 +110,21 @@ app.post('/signin', async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (user && bcrypt.compareSync(password, user.password)) {
-      res.json({
-        id: user._id,
-        name: user.name,
-        accessToken: user.accessToken,
-      });
-    } else {
-      res.json({ notFound: true });
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
+
+    if (!bcrypt.compareSync(password, user.password)) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    res.json({
+      id: user._id,
+      name: user.name,
+      accessToken: user.accessToken
+    });
   } catch (error) {
     res.status(400).json({ message: 'Invalid request', error });
   }
