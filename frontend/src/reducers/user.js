@@ -29,12 +29,13 @@ export const signIn = (email, password) => {
       headers: { "Content-Type": "application/JSON" },
       body: JSON.stringify({ email, password }),
     })
-      .then((res) => res.json)
+      .then((res) => res.json())
       .then((data) => {
         if (data) {
+          console.log(data);
           batch(() => {
             dispatch(user.actions.setEmail(data.email));
-            dispatch(user.actions.setAccesstoken(data.accesstoken));
+            dispatch(user.actions.setAccesstoken(data.accessToken));
             dispatch(user.actions.setErrors(null));
           });
         } else {
@@ -68,9 +69,10 @@ export const signUp = (email, password) => {
       })
       .then((data) => {
         if (data) {
+          console.log(data);
           batch(() => {
-            dispatch(user.actions.setEmail(data.username));
-            dispatch(user.actions.setAccesstoken(data.accesstoken));
+            dispatch(user.actions.setEmail(data.email));
+            dispatch(user.actions.setAccesstoken(data.accessToken));
             dispatch(user.actions.setErrors(null));
           });
         } else {

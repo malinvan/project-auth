@@ -1,9 +1,12 @@
 import React, { 
   useState,
-  // useEffect
+  useEffect
 } from "react";
-import { useDispatch } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
+import { 
+  useDispatch,
+  useSelector 
+} from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components/macro";
 // import { fetchMovies } from "reducers/movie";
 import { signIn } from "reducers/user";
@@ -53,15 +56,15 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState(null);
 
-  // const accessTooken = useSelector(store => store.user.accessToken)
+  const accessToken = useSelector(store => store.user.accesstoken)
   const dispatch = useDispatch();
-  // const history = useHistory();
+  const history = useHistory();
 
-  // useEffect(() => {
-  //   if (accessToken) {
-  //     history.push('/movies');
-  //   }
-  // }, [accessToken])
+  useEffect(() => {
+    if (accessToken) {
+      history.push('/netflix');
+    }
+  }, [accessToken])
 
   const onFormSubmit = (e) => {
     e.preventDefault();
