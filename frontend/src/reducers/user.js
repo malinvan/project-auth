@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API_URL } from "reusable/urls";
 
 export const user = createSlice({
-  name: "user",
-  inititialState: {
+  name: 'user',
+  initialState: {
     email: null,
     accesstoken: null,
-    errors: null,
+    errors: null
   },
   reducers: {
     setEmail: (store, action) => {
@@ -31,7 +31,7 @@ export const signIn = (email, password) => {
     })
       .then((res) => res.json)
       .then((data) => {
-        if (data.success) {
+        if (data) {
           batch(() => {
             dispatch(user.actions.setEmail(data.email));
             dispatch(user.actions.setAccesstoken(data.accesstoken));
@@ -52,9 +52,22 @@ export const signUp = (email, password) => {
       headers: { "Content-Type": "application/JSON" },
       body: JSON.stringify({ email, password }),
     })
-      .then((res) => res.json)
+      .then( async (res) => {
+        const body = await res.json();
+        if (!res.ok) {
+          if (body.errorCode === 'email-exists') {
+            dispatch(user.actions.setErrors('The email already exists'));
+          } else {
+            dispatch(user.actions.setErrors('Something went wrong'));
+          }
+          
+          return;
+        }
+
+        return body;
+      })
       .then((data) => {
-        if (data.success) {
+        if (data) {
           batch(() => {
             dispatch(user.actions.setEmail(data.username));
             dispatch(user.actions.setAccesstoken(data.accesstoken));
@@ -64,6 +77,9 @@ export const signUp = (email, password) => {
           dispatch(user.actions.setErrors(data));
         }
       })
-      .catch();
+      .catch((e) => {
+        console.log('patata');
+        console.log(e);
+      });
   };
 };

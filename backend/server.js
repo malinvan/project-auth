@@ -85,7 +85,7 @@ app.post('/signup', async (req, res) => {
     const salt = bcrypt.genSaltSync();
     const { email, password } = req.body;
     
-    user = await User.find({
+    let user = await User.findOne({
       email
     });
     if (user) {
@@ -101,6 +101,7 @@ app.post('/signup', async (req, res) => {
     user.save();
     res.status(201).json({ id: user._id, accessToken: user.accessToken });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: 'Could not create user', error });
   }
 });
@@ -111,7 +112,7 @@ app.post('/signin', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
@@ -122,7 +123,7 @@ app.post('/signin', async (req, res) => {
 
     res.json({
       id: user._id,
-      name: user.name,
+      email: user.email,
       accessToken: user.accessToken
     });
   } catch (error) {

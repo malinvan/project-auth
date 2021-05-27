@@ -1,10 +1,9 @@
 import React, { 
-  useState, 
-  useDispatch,
+  useState,
   // useEffect
 } from "react";
-// import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+// import { useHistory } from 'react-router-dom';
 import styled from "styled-components/macro";
 // import { fetchMovies } from "reducers/movie";
 import { signIn } from "reducers/user";
