@@ -17,10 +17,6 @@ mongoose.connect(mongoUrl, {
 mongoose.Promise = Promise;
 
 const User = mongoose.model('User', {
-  name: {
-    type: String,
-    unique: true,
-  },
   email: {
     type: String,
     unique: true,
@@ -87,26 +83,17 @@ app.get('/', (req, res) => {
 app.post('/signup', async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync();
-    const { name, email, password } = req.body;
-    
-    let user = await User.find({
-      name
-    });
-    if (user) {
-      res.status(403).json({ message: 'Username already exists' })
-      return
-    }
+    const { email, password } = req.body;
     
     user = await User.find({
       email
     });
     if (user) {
-      res.status(403).json({ message: 'Email already exists' })
+      res.status(403).json({ errorCode: 'email-exists' })
       return
     }
     
     user = new User({
-      name,
       email,
       password: bcrypt.hashSync(password, salt),
     });
@@ -119,10 +106,10 @@ app.post('/signup', async (req, res) => {
 });
 
 app.post('/signin', async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ name });
+    const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json({ message: 'User not found' });
       return;
