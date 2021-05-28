@@ -20,6 +20,7 @@ const User = mongoose.model('User', {
   email: {
     type: String,
     unique: true,
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
   password: {
     type: String,
@@ -34,12 +35,8 @@ const User = mongoose.model('User', {
 const Movie = mongoose.model('Movie', {
   title: String,
   director: String,
-  cast: String,
-  country: String,
-  listed_in: String,
   release_year: Number,
   description: String,
-  duration: String
 });
 
 if (process.env.RESET_DB) {
@@ -84,15 +81,15 @@ app.post('/signup', async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync();
     const { email, password } = req.body;
-    
+
     let user = await User.findOne({
-      email
+      email,
     });
     if (user) {
-      res.status(403).json({ errorCode: 'email-exists' })
-      return
+      res.status(403).json({ errorCode: 'email-exists', message: 'A user with that email already exists' });
+      return;
     }
-    
+
     user = new User({
       email,
       password: bcrypt.hashSync(password, salt),
@@ -102,7 +99,7 @@ app.post('/signup', async (req, res) => {
     res.status(201).json({ id: user._id, accessToken: user.accessToken });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: 'Could not create user', error });
+    res.status(400).json({ errorCode: 'uknown-error', message: 'Could not create user', error });
   }
 });
 
@@ -112,68 +109,33 @@ app.post('/signin', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ errorCode: 'invalid-credentials', message: 'Invalid credentials' });
       return;
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ errorCode: 'invalid-credentials', message: 'Invalid credentials' });
       return;
     }
 
     res.json({
       id: user._id,
       email: user.email,
-      accessToken: user.accessToken
+      accessToken: user.accessToken,
     });
   } catch (error) {
-    res.status(400).json({ message: 'Invalid request', error });
+    res.status(400).json({ errorCode: 'uknown-error', message: 'Invalid request', error });
   }
 });
 
-// app.get('/netflix', authenicateUser);
-app.get('/netflix', async (req, res) => {
-  // let data;
-  // const { country } = req.query;
-  // const { genre } = req.query;
-  // const { releaseYear } = req.query;
-  // const { title } = req.query;
-  // const { director } = req.query;
-  // const { cast } = req.query;
+// Just for development
+app.get('/users', async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
 
-  // try {
-  //   if (country) {
-  //     data = await NetflixData.find({
-  //       country: { $regex: country, $options: 'i' },
-  //     });
-  //   } else if (genre) {
-  //     data = await NetflixData.find({
-  //       listed_in: { $regex: genre, $options: 'i' },
-  //     });
-  //   } else if (releaseYear) {
-  //     data = await NetflixData.find({ release_year: releaseYear });
-  //   } else if (title) {
-  //     data = await NetflixData.find({
-  //       title: { $regex: title, $options: 'i' },
-  //     });
-  //   } else if (director) {
-  //     data = await NetflixData.find({
-  //       director: { $regex: director, $options: 'i' },
-  //     });
-  //   } else if (cast) {
-  //     data = await NetflixData.find({
-  //       cast: { $regex: cast, $options: 'i' },
-  //     });
-  //   } else {
-  //     data = await NetflixData.find();
-  //   }
-  //   res.json(data);
-  // } catch (error) {
-  //   res
-  //     .status(400)
-  //     .json({ error: 'Oops, no luck with that search', details: error });
-  // }
-
+// Ändrade från netflixData.find() => Movie.find()
+app.get('/netflix', authenicateUser, async (req, res) => {
   const movies = await Movie.find();
   res.json(movies);
 });
