@@ -26,7 +26,6 @@ export const fetchMovies = () => {
       .then((res) => {
 
         if (!res.ok) {
-          // TODO - handle error
           return Promise.reject();
         }
 

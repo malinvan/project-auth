@@ -29,14 +29,12 @@ export const Movies = () => {
     onFetchMovies();
   }, []);
 
-  console.log('Mierda');
-  console.log(movieList);
-
   return (
     <div>
-      <Button 
-        // onClick={onButtonClick}
-        >Sign out
+      <Button
+      // onClick={onButtonClick}
+      >
+        Sign out
       </Button>
       {movieList.map((movie) => (
         <div key={movie._id}>
