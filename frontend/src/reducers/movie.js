@@ -17,7 +17,6 @@ export const fetchMovies = () => {
     fetch('http://localhost:8080/netflix')
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         dispatch(movie.actions.setMovieList(json));
       });
   };

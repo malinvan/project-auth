@@ -8,7 +8,7 @@ import {
 } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components/macro";
-import { fetchMovies } from "reducers/movie";
+// import { fetchMovies } from "reducers/movie";
 import { signIn } from "reducers/user";
 import { signUp } from "reducers/user";
 
@@ -60,7 +60,6 @@ export const SignIn = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  //Frpn frl eller annat?
   useEffect(() => {
     if (accessToken) {
       history.push('/netflix');
