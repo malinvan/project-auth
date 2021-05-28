@@ -1,13 +1,13 @@
-import { batch } from "react-redux";
-import { createSlice } from '@reduxjs/toolkit'
-import { API_URL } from "reusable/urls";
+import { batch } from 'react-redux';
+import { createSlice } from '@reduxjs/toolkit';
+import { API_URL } from 'reusable/urls';
 
 export const user = createSlice({
   name: 'user',
   initialState: {
     email: null,
     accesstoken: null,
-    errors: null
+    errors: null,
   },
   reducers: {
     setEmail: (store, action) => {
@@ -25,8 +25,8 @@ export const user = createSlice({
 export const signIn = (email, password) => {
   return (dispatch) => {
     fetch(API_URL('signin'), {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/JSON' },
       body: JSON.stringify({ email, password }),
     })
       .then((res) => res.json())
@@ -49,11 +49,11 @@ export const signIn = (email, password) => {
 export const signUp = (email, password) => {
   return (dispatch) => {
     fetch(API_URL('signup'), {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/JSON' },
       body: JSON.stringify({ email, password }),
     })
-      .then( async (res) => {
+      .then(async (res) => {
         const body = await res.json();
         if (!res.ok) {
           if (body.errorCode === 'email-exists') {
@@ -61,10 +61,9 @@ export const signUp = (email, password) => {
           } else {
             dispatch(user.actions.setErrors('Something went wrong'));
           }
-          
+
           return;
         }
-
         return body;
       })
       .then((data) => {

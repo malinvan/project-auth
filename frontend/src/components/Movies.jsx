@@ -15,6 +15,7 @@ export const Movies = () => {
     onFetchMovies();
   }, []);
 
+  
   return (
       <div>
         {movieList.map((movie) => (
@@ -26,3 +27,5 @@ export const Movies = () => {
       </div>
   );
 }
+
+
