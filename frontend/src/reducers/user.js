@@ -78,9 +78,6 @@ export const signUp = (email, password) => {
           dispatch(user.actions.setErrors(data));
         }
       })
-      .catch((e) => {
-        console.log('patata');
-        console.log(e);
-      });
+      .catch();
   };
 };

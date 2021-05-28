@@ -7,10 +7,19 @@ import { signIn } from "reducers/user";
 import { signUp } from "reducers/user";
 
 const Container = styled.form`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Title = styled.h2`
+  color: #7CA982;
+  font-size: 40px;
+  margin-bottom: 40px;
 `;
 
 const FormContainer = styled.form`
@@ -40,10 +49,12 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: white;
+  background-color: #7CA982;
+  color: white;
   width: 50%;
   border-radius: 50px;
   font-weight: bold;
+  margin-right: 10px;
 `;
 
 const ButtonContainer = styled.div`
@@ -65,7 +76,7 @@ export const SignIn = () => {
     if (accessToken) {
       history.push("/netflix");
     }
-  }, [accessToken]);
+  }, [accessToken, history]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -80,7 +91,7 @@ export const SignIn = () => {
   return (
     <Container>
       <FormContainer onSubmit={onFormSubmit}>
-        <h2>Sign in or sign up!</h2>
+        <Title>Sign in or sign up!</Title>
         <label>Email</label>
         <Input
           type="text"
@@ -98,7 +109,6 @@ export const SignIn = () => {
             type="submit"
             onClick={() => {
               setMode("signin");
-              console.log("HELLO FROM SIGN IN");
             }}
           >
             Sign In

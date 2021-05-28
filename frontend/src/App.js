@@ -8,9 +8,7 @@ import { movie } from "reducers/movie";
 import { user } from "reducers/user";
 
 import { Movies } from "components/Movies";
-// import { SignUp } from 'components/SignUp';
 import { SignIn } from "components/SignIn";
-// import { Header } from "components/Header";
 import { Main } from "components/Main";
 
 const reducer = combineReducers({
@@ -24,6 +22,7 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 export const App = () => {
