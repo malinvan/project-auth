@@ -6,15 +6,15 @@ export const user = createSlice({
   name: 'user',
   initialState: {
     email: null,
-    accesstoken: null,
+    accessToken: null,
     errors: null
   },
   reducers: {
     setEmail: (store, action) => {
       store.email = action.payload;
     },
-    setAccesstoken: (store, action) => {
-      store.accesstoken = action.payload;
+    setAccessToken: (store, action) => {
+      store.accessToken = action.payload;
     },
     setErrors: (store, action) => {
       store.errors = action.payload;
@@ -32,10 +32,9 @@ export const signIn = (email, password) => {
       .then((res) => res.json())
       .then((data) => {
         if (data) {
-          console.log(data);
           batch(() => {
             dispatch(user.actions.setEmail(data.email));
-            dispatch(user.actions.setAccesstoken(data.accessToken));
+            dispatch(user.actions.setAccessToken(data.accessToken));
             dispatch(user.actions.setErrors(null));
           });
         } else {
@@ -72,7 +71,7 @@ export const signUp = (email, password) => {
           console.log(data);
           batch(() => {
             dispatch(user.actions.setEmail(data.email));
-            dispatch(user.actions.setAccesstoken(data.accessToken));
+            dispatch(user.actions.setAccessToken(data.accessToken));
             dispatch(user.actions.setErrors(null));
           });
         } else {

@@ -56,7 +56,7 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState(null);
 
-  const accessToken = useSelector(store => store.user.accesstoken)
+  const accessToken = useSelector(store => store.user.accessToken)
   const dispatch = useDispatch();
   const history = useHistory();
 
