@@ -18,14 +18,13 @@ const Movie = styled.div`
   margin: 10px;
 `;
 
-const Button = styled.button`
-  background-color: #7CA982;
-  color: white;
-  border-radius: 50px;
-  padding: 10px;
-  font-weight: bold;
-`;
-
+// const Button = styled.button`
+//   background-color: #7CA982;
+//   color: white;
+//   border-radius: 50px;
+//   padding: 10px;
+//   font-weight: bold;
+// `;
 
 export const Movies = () => {
   const dispatch = useDispatch();
@@ -35,11 +34,11 @@ export const Movies = () => {
     dispatch(fetchMovies());
   };
 
-  const onButtonClick = () => {
-    console.log("HELLO");
-    dispatch(user.actions.setAccesstoken(null));
-    dispatch(user.actions.setEmail(null));
-  };
+  // const onButtonClick = () => {
+  //   console.log("HELLO");
+  //   dispatch(user.actions.setAccesstoken(null));
+  //   dispatch(user.actions.setEmail(null));
+  // };
 
   useEffect(() => {
     onFetchMovies();
@@ -47,11 +46,11 @@ export const Movies = () => {
 
   return (
     <div>
-      <Button
+      {/* <Button
         onClick={onButtonClick}
       >
         Sign out
-      </Button>
+      </Button> */}
       <MovieContainer>
         {movieList.map((movie) => (
           <Movie key={movie._id}>
