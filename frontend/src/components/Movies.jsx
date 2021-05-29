@@ -41,7 +41,7 @@ export const Movies = () => {
 
   useEffect(() => {
     dispatch(fetchMovies());
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
