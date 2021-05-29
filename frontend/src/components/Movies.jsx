@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components/macro";
 
 import { fetchMovies } from "reducers/movie";
-import { user } from "../reducers/user";
 
 const MovieContainer = styled.section`
   width: 100vw;  
@@ -30,9 +29,9 @@ export const Movies = () => {
   const dispatch = useDispatch();
   const movieList = useSelector((store) => store.movie.movieList);
 
-  const onFetchMovies = () => {
-    dispatch(fetchMovies());
-  };
+  // const onFetchMovies = () => {
+  //   dispatch(fetchMovies());
+  // };
 
   // const onButtonClick = () => {
   //   console.log("HELLO");
@@ -41,7 +40,7 @@ export const Movies = () => {
   // };
 
   useEffect(() => {
-    onFetchMovies();
+    dispatch(fetchMovies());
   }, []);
 
   return (
