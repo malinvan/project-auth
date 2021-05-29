@@ -14,17 +14,15 @@ export const movie = createSlice({
 
 export const fetchMovies = () => {
   return (dispatch, getState) => {
-
     const { user } = getState();
     console.log(user.accessToken);
-    fetch('http://localhost:8080/netflix', {
+    fetch('https://hannahmalin-authentication.herokuapp.com/netflix', {
       method: 'GET',
       headers: {
-        'Authorization': user.accessToken
-      }
+        Authorization: user.accessToken,
+      },
     })
       .then((res) => {
-
         if (!res.ok) {
           return Promise.reject();
         }
